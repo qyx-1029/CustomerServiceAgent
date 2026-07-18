@@ -16,3 +16,4 @@ pydantic
 redis
 faiss-cpu
 chromadb
+pydantic-settings
