@@ -14,35 +14,45 @@ client = OpenAI(
 
 
 
-def chat_with_llm(message:str):
+def chat_with_llm(
+    message,
+    history=None
+):
+
+    if history is None:
+
+        history=[]
+
+    messages=[
+
+    {
+    "role":"system",
+    "content":
+    get_customer_service_prompt()
+    }
+
+    ]
 
 
-    system_prompt = (
-        get_customer_service_prompt()
-    )
+    messages.extend(history)
 
 
-    response = client.chat.completions.create(
+    messages.append({
 
-        model=settings.deepseek_model,
+    "role":"user",
 
+    "content":message
 
-        messages=[
-
-            {
-                "role":"system",
-                "content":system_prompt
-            },
+    })
 
 
-            {
-                "role":"user",
-                "content":message
-            }
+    response=client.chat.completions.create(
 
-        ],
+    model=settings.deepseek_model,
 
-        temperature=0.2
+    messages=messages,
+
+    temperature=0.2
 
     )
 

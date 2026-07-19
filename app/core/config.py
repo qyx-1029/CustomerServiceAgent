@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     deepseek_model: str = "deepseek-chat"
 
 
+    # Redis配置
+    redis_host: str = "localhost"
+    redis_port: int = 6379
+    redis_db: int = 0
+
 
     # MySQL配置
     mysql_host: str = "localhost"
