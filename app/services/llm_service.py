@@ -2,6 +2,9 @@ from openai import OpenAI
 
 from app.core.config import settings
 
+from app.prompts.manager import (
+    get_customer_service_prompt
+)
 
 
 client = OpenAI(
@@ -13,24 +16,22 @@ client = OpenAI(
 
 def chat_with_llm(message:str):
 
+
+    system_prompt = (
+        get_customer_service_prompt()
+    )
+
+
     response = client.chat.completions.create(
 
         model=settings.deepseek_model,
+
 
         messages=[
 
             {
                 "role":"system",
-                "content":
-                """
-                你是一名专业客服。
-
-                要求：
-                1.回答用户问题
-                2.保持礼貌
-                3.不要编造信息
-                4.回答简洁
-                """
+                "content":system_prompt
             },
 
 
@@ -41,7 +42,7 @@ def chat_with_llm(message:str):
 
         ],
 
-        temperature=0.3
+        temperature=0.2
 
     )
 
